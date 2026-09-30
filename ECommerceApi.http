@@ -1,0 +1,37 @@
+@hostname = localhost
+@port = 5147
+@host = http://{{hostname}}:{{port}}
+
+### 1. Crear un Producto Nuevo (Ejemplo Válido)
+POST {{host}}/api/products
+Content-Type: application/json
+
+{
+  "name": "Teclado Razer BlackWidow",
+  "price": 149.99,
+  "stock": 25
+}
+
+###
+
+### 2. Probar Validación del DTO (Precio Inválido -> Debe retornar Error 400)
+POST {{host}}/api/products
+Content-Type: application/json
+
+{
+  "name": "Mouse Genérico",
+  "price": -5.00,
+  "stock": 10
+}
+
+###
+
+### 3. Obtener Catálogo con Paginación (Página 1, tamaño 2)
+GET {{host}}/api/products/catalog?pageNumber=1&pageSize=2
+Accept: application/json
+
+###
+
+### 4. Probar Middleware Global (Forzar error buscando un ID alfanumérico inválido)
+GET {{host}}/api/products/abc
+Accept: application/json

@@ -1,0 +1,9 @@
+# Carpetas de compilación de .NET
+[Bb]in/
+[Oo]bj/
+
+# Configuraciones locales de Visual Studio Code
+.vscode/
+
+# Archivos temporales de Docker
+.dockerignore

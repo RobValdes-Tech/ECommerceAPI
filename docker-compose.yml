@@ -1,0 +1,35 @@
+services:
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    container_name: sqlserver_db
+    environment:
+      - ACCEPT_EULA=Y
+      - MSSQL_SA_PASSWORD=TuPasswordSeguro123!
+    ports:
+      - "1433:1433"
+    volumes:
+      - mssql_data:/var/opt/mssql
+    networks:
+      - ecommerce_network
+
+  webapi:
+    image: ecommerce-api:latest
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: net_core_api
+    ports:
+      - "8080:80"
+    environment:
+      - ConnectionStrings__DefaultConnection=Server=sqlserver;Database=ECommerceDB;User Id=sa;Password=TuPasswordSeguro123!;TrustServerCertificate=True;
+    depends_on:
+      - sqlserver
+    networks:
+      - ecommerce_network
+
+volumes:
+  mssql_data:
+
+networks:
+  ecommerce_network:
+    driver: bridge
